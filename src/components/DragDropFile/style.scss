@@ -1,0 +1,49 @@
+div{
+    display: flex;
+    flex-direction: column;
+}
+.container{
+    background: #ff4343;
+    border: 1px solid #DCDCDC;
+    border-radius: 7px;
+    min-width: 800px;
+    min-height: 200px;
+    form{
+        margin-top: 3rem;
+        label{
+            width: 500px;
+            height: 500px;
+            background-color: #ED5D5D;
+        }
+        #input-file-upload{
+            display: none;
+        }
+        h3{
+            margin: 0 auto;
+        }
+        #link{
+            text-decoration: underline;
+            margin: 0 auto;
+            padding: 0;
+            display: inline;
+        }
+        #link:hover{
+            cursor: pointer;
+            color: blueviolet;
+        }
+        #drag{
+            background-color: #ED5D5D;
+            width: 500px;
+            height: 500px;
+        }
+    }
+}
+.error{
+    border: 1px solid #ED5D5D;
+}
+.errorMessage{
+    color: #ED5D5D;
+    display: inline;    
+    align-self: flex-start;
+    
+}
