@@ -10,20 +10,26 @@ const ListFiles = (props) => {
   const [itemSlidePosition, setItemSlidePosition] = useState(0);
 
   const handleClickArrowRight = () => {
-    if (itemSlidePosition * 3 + 3 < fileList.length) {
-      setItemSlidePosition((c) => c + 1);
+    if (!isLoading) {
+      if (itemSlidePosition * 3 + 3 < fileList.length) {
+        setItemSlidePosition((c) => c + 1);
+      }
     }
   };
 
   const handleClickArrowLeft = () => {
-    if (itemSlidePosition >= 1) {
-      setItemSlidePosition((c) => c - 1);
+    if (!isLoading) {
+      if (itemSlidePosition >= 1) {
+        setItemSlidePosition((c) => c - 1);
+      }
     }
   };
 
   const handleClickDelete = (item) => {
-    onDelete(item);
-    setItemSlidePosition(0);
+    if (!isLoading) {
+      onDelete(item);
+      //setItemSlidePosition(0);
+    }
   };
 
   const renderArrowIcon = () => {
@@ -37,7 +43,7 @@ const ListFiles = (props) => {
             alt=""
           />
         );
-      } else if (itemSlidePosition*3 >= fileList.length - 3) {
+      } else if (itemSlidePosition * 3 >= fileList.length - 3) {
         return (
           <img
             id="arrow-icon-left"
@@ -68,7 +74,7 @@ const ListFiles = (props) => {
   };
 
   const renderList = fileList.map((item, index) => (
-    <div className="file" id="box-file" key={index}>
+    <div className={isLoading ? "disable" : ""} id="box-file" key={index}>
       <FileItem
         contentType={item.contentType}
         name={item.name}
@@ -80,22 +86,20 @@ const ListFiles = (props) => {
   ));
 
   return (
-    <div id="list-container">
-      {!isLoading && (
-        <>
-          <div id="wrap-container">
-            <div
-              id="box-container"
-              style={{ right: itemSlidePosition * 258*3 + "px" }}
-            >
-              {renderList}
-            </div>
+    <>
+      <div id="list-container">
+        <div id="wrap-container">
+          <div
+            id="box-container"
+            style={{ right: itemSlidePosition * 258 * 3 + "px" }}
+          >
+            {renderList}
           </div>
-          <div id="icon">{renderArrowIcon()}</div>
-        </>
-      )}
-      {isLoading && <>loading...</>}
-    </div>
+        </div>
+        <div id="icon">{renderArrowIcon()}</div>
+      </div>
+      {isLoading && <span>loading...</span>}
+    </>
   );
 };
 
