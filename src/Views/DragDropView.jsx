@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 const DragDropView = () => {
   const dispatch = useDispatch();
   const { fileList } = useSelector((store) => store.storage);
-  
+
   useEffect(() => {
     dispatch(fetchListFiles());
   }, []);
@@ -15,14 +15,14 @@ const DragDropView = () => {
     dispatch(uploadFile(fileList));
   };
 
-  const onDelete = (fullPath)=>{
-    dispatch(deleteFile(fullPath))
-  }
+  const onDelete = (fullPath) => {
+    dispatch(deleteFile(fullPath));
+  };
 
   return (
     <div id="drag-drop-view">
-      <DragDropFile onChange={onChange} maxSize={1048576} maxSizeErrorMessage="The maximum file size is 10 MB"/>
-      <ListFiles fileList={fileList} onDelete ={onDelete} />
+      <DragDropFile onChange={onChange} maxSize={1048576} />
+      <ListFiles fileList={fileList} onDelete={onDelete} />
     </div>
   );
 };
