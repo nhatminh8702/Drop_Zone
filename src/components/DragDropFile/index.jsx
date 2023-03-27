@@ -19,9 +19,10 @@ const DragDropFile = (props) => {
   };
 
   const handleChange = (e) => {
+    const fileList = Array.from(e.target.files);
+    console.log(fileList);
     if (e.target.files) {
-      let upload = true;
-      const isErrorMaxSize = e.target.files.some((file) => file.size > maxSize);
+      const isErrorMaxSize = fileList.some((file) => file.size > maxSize);
       if (!isErrorMaxSize) {
         onChange(e.target.files);
       }
@@ -55,7 +56,11 @@ const DragDropFile = (props) => {
           </p>
         </form>
       </div>
-      {error && <p className="errorMessage">The maximum file size is{bytesFormat(maxSize)}</p>}
+      {error && (
+        <p className="errorMessage">
+          The maximum file size is {bytesFormat(maxSize)}
+        </p>
+      )}
     </div>
   );
 };
