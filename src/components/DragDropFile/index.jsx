@@ -17,24 +17,17 @@ const DragDropFile = (props) => {
     onChange(e.dataTransfer.files);
     setError(false);
   };
-  
+
   const handleChange = (e) => {
     if (e.target.files) {
       let upload = true;
-      for (let i = 0; i < e.target.files.length; i++) {
-        if (e.target.files[i].size > maxSize) {
-          upload = false;
-          setError(true);
-          break;
-        }
-      }
-      if (upload) {
+      const isErrorMaxSize = e.target.files.some((file) => file.size > maxSize);
+      if (!isErrorMaxSize) {
         onChange(e.target.files);
-        setError(false);
       }
+      setError(isErrorMaxSize);
     }
   };
-  const checkSize = (files) => {};
 
   const handleClick = () => {
     inputRef.current.click();

@@ -1,75 +1,19 @@
 import React, { useEffect, useState } from "react";
 import "./style.scss";
-import arrowsIconLeft from "../../assets/icons/circle-arrow-left-solid.svg";
-import arrowsIconRight from "../../assets/icons/circle-arrow-right-solid.svg";
+
 import { useSelector } from "react-redux";
 import FileItem from "../FileItem";
+import ArrowIconPagination from "../ArrowIconPagination";
 const ListFiles = (props) => {
   const { isLoading } = useSelector((store) => store.storage);
   const { fileList, onDelete } = props;
-  const [itemSlidePosition, setItemSlidePosition] = useState(0);
-
-  const handleClickArrowRight = () => {
-    if (!isLoading) {
-      if (itemSlidePosition * 3 + 3 < fileList.length) {
-        setItemSlidePosition((c) => c + 1);
-      }
-    }
-  };
-
-  const handleClickArrowLeft = () => {
-    if (!isLoading) {
-      if (itemSlidePosition >= 1) {
-        setItemSlidePosition((c) => c - 1);
-      }
-    }
-  };
-
+  const itemPerPage = 3;
+  const amountOfPixelToSlide = itemPerPage * 258;
+  const [currentSlidePosition, setCurrentSlidePosition] = useState(0);
+  
   const handleClickDelete = (item) => {
     if (!isLoading) {
       onDelete(item);
-      //setItemSlidePosition(0);
-    }
-  };
-
-  const renderArrowIcon = () => {
-    if (fileList.length > 3) {
-      if (itemSlidePosition === 0) {
-        return (
-          <img
-            id="arrow-icon-right"
-            onClick={handleClickArrowRight}
-            src={arrowsIconRight}
-            alt=""
-          />
-        );
-      } else if (itemSlidePosition * 3 >= fileList.length - 3) {
-        return (
-          <img
-            id="arrow-icon-left"
-            onClick={handleClickArrowLeft}
-            src={arrowsIconLeft}
-            alt=""
-          />
-        );
-      } else {
-        return (
-          <>
-            <img
-              id="arrow-icon-left"
-              onClick={handleClickArrowLeft}
-              src={arrowsIconLeft}
-              alt=""
-            />
-            <img
-              id="arrow-icon-right"
-              onClick={handleClickArrowRight}
-              src={arrowsIconRight}
-              alt=""
-            />
-          </>
-        );
-      }
     }
   };
 
@@ -79,8 +23,7 @@ const ListFiles = (props) => {
         contentType={item.contentType}
         name={item.name}
         size={item.size}
-        fullPath={item.fullPath}
-        onClickDelete={handleClickDelete}
+        onClickDelete={() => handleClickDelete(item.fullPath)}
       />
     </div>
   ));
@@ -91,12 +34,18 @@ const ListFiles = (props) => {
         <div id="wrap-container">
           <div
             id="box-container"
-            style={{ right: itemSlidePosition * 258 * 3 + "px" }}
+            style={{ right: currentSlidePosition * amountOfPixelToSlide + "px" }}
           >
             {renderList}
           </div>
         </div>
-        <div id="icon">{renderArrowIcon()}</div>
+        <ArrowIconPagination
+          numberOfItem={fileList.length}
+          disabled={isLoading}
+          itemPerPage={itemPerPage}
+          currentSlidePosition={currentSlidePosition}
+          setCurrentSlidePosition={setCurrentSlidePosition}
+        />
       </div>
       {isLoading && <span>loading...</span>}
     </>

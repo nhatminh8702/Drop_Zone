@@ -5,9 +5,9 @@ import excelFileIcon from "../../assets/icons/excel.svg";
 import defaultFileIcon from "../../assets/icons/defaultFile.svg";
 import deleteFileIcon from "../../assets/icons/close-circle.svg";
 import { bytesFormat } from "../../utility/bytesFormat";
-import "./style.scss"
+import "./style.scss";
 const FileItem = (props) => {
-  const { contentType, name, size, fullPath, onClickDelete } = props;
+  const { contentType, name, size, onClickDelete } = props;
 
   const renderFileIcon = (fileType) => {
     switch (fileType) {
@@ -31,7 +31,7 @@ const FileItem = (props) => {
       </div>
       <img
         id="file-del-icon"
-        onClick={() => onClickDelete(fullPath)}
+        onClick={onClickDelete}
         src={deleteFileIcon}
         alt=""
       />
