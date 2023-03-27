@@ -4,7 +4,6 @@ import arrowsIconLeft from "../../assets/icons/circle-arrow-left-solid.svg";
 import arrowsIconRight from "../../assets/icons/circle-arrow-right-solid.svg";
 import { useSelector } from "react-redux";
 import FileItem from "../FileItem";
-//import { animated, useSpring } from "@react-spring/web";
 const ListFiles = (props) => {
   const { isLoading } = useSelector((store) => store.storage);
   const { fileList, onDelete } = props;
@@ -38,7 +37,7 @@ const ListFiles = (props) => {
             alt=""
           />
         );
-      } else if (itemSlidePosition >= fileList.length - 3) {
+      } else if (itemSlidePosition*3 >= fileList.length - 3) {
         return (
           <img
             id="arrow-icon-left"
@@ -79,9 +78,6 @@ const ListFiles = (props) => {
       />
     </div>
   ));
-
-  // console.log("isLoading", isLoading);
-  // console.log("fileList.length;", fileList.length);
 
   return (
     <div id="list-container">
