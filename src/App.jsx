@@ -1,15 +1,15 @@
-import { useState } from 'react'
-import './App.css'
-import DragDropView from './Views/DragDropView'
+import { useState } from "react";
+import "./App.css";
+import DragDropView from "./Views/DragDropView";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [count, setCount] = useState(0);
 
   return (
     <div className="App">
-      <DragDropView/>
+      <DragDropView />
     </div>
-  )
+  );
 }
 
-export default App
+export default App;

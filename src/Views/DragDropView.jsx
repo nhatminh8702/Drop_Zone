@@ -1,28 +1,28 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import DragDropFile from "../components/DragDropFile";
 import ListFiles from "../components/ListFiles";
-import { uploadBytes } from "firebase/storage";
-import storage from "../storage/FireBaseStorage";
-import { ref, listAll, getMetadata } from "firebase/storage";
+import { fetchListFiles, uploadFile, deleteFile } from "../store/storageSlice";
+import { useDispatch, useSelector } from "react-redux";
 const DragDropView = () => {
-  const [fileList, setFileList] = useState([]);
-  const storageRef = ref(storage, "storage/");
+  const dispatch = useDispatch();
+  const { fileList } = useSelector((store) => store.storage);
+  
+  useEffect(() => {
+    dispatch(fetchListFiles());
+  }, []);
 
-  listAll(storageRef).then((res) => {
-    res.items.forEach((itemRef) => {
-      getMetadata(itemRef).then((res) => console.log(res) );
-    });
-  });
   const onChange = (fileList) => {
-    for (let i = 0; i < fileList.length; i++) {
-      uploadBytes(ref(storage, "storage/" + fileList[i].name), fileList[i]);
-    }
+    dispatch(uploadFile(fileList));
   };
 
+  const onDelete = (fullPath)=>{
+    dispatch(deleteFile(fullPath))
+  }
+
   return (
-    <div>
-      <DragDropFile onChange={onChange} maxSize={1048576} />
-      <ListFiles />
+    <div id="drag-drop-view">
+      <DragDropFile onChange={onChange} maxSize={1048576} maxSizeErrorMessage="The maximum file size is 10 MB"/>
+      <ListFiles fileList={fileList} onDelete ={onDelete} />
     </div>
   );
 };

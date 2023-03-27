@@ -1,0 +1,33 @@
+#list-container{
+    position: relative;
+    #icon{
+        position: absolute;
+        right: 15px;
+        bottom: 5px;
+        margin-top: 2%;
+        display: flex;
+        flex-direction: row;
+        gap: 1rem;
+        #arrow-icon-left, #arrow-icon-right{
+            height: 32px;
+            &:hover{
+                cursor: pointer;
+            }
+        }
+    }
+    
+}
+
+#wrap-container{
+    overflow: hidden;
+    width: calc(100% - 80px);
+}
+
+#box-container{
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;  
+    position: relative;
+    transition-property: right;
+    transition-duration: 0.5s;
+}

@@ -1,0 +1,35 @@
+#box-file{
+    &:hover{
+        background-color: #DCDCDC;
+    }
+    border: #DCDCDC 1px solid;
+    border-radius: 3px;
+    min-width: 31.5%;
+    display: flex;
+    flex-direction: row;
+    margin-top: 1%;
+    #file-icon{
+        width: 32px;
+        height: auto;
+    }
+    #file-content{
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        height: auto;
+        font-size: 85%;
+        flex-grow: 1;
+        #file-title{
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            font-weight: 1000;
+            text-align: left;
+            max-width: 140px;
+        }
+    }
+    #file-del-icon{
+        margin-right: 3%;
+        cursor: pointer;
+    }
+}

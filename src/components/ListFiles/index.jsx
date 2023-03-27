@@ -1,8 +1,106 @@
-import React from "react";
-
+import React, { useEffect, useState } from "react";
+import "./style.scss";
+import arrowsIconLeft from "../../assets/icons/circle-arrow-left-solid.svg";
+import arrowsIconRight from "../../assets/icons/circle-arrow-right-solid.svg";
+import { useSelector } from "react-redux";
+import FileItem from "../FileItem";
+//import { animated, useSpring } from "@react-spring/web";
 const ListFiles = (props) => {
-  
-  return <div>asdasd</div>;
+  const { isLoading } = useSelector((store) => store.storage);
+  const { fileList, onDelete } = props;
+  const [itemSlidePosition, setItemSlidePosition] = useState(0);
+
+  const handleClickArrowRight = () => {
+    if (itemSlidePosition * 3 + 3 < fileList.length) {
+      setItemSlidePosition((c) => c + 1);
+    }
+  };
+
+  const handleClickArrowLeft = () => {
+    if (itemSlidePosition >= 1) {
+      setItemSlidePosition((c) => c - 1);
+    }
+  };
+
+  const handleClickDelete = (item) => {
+    onDelete(item);
+    setItemSlidePosition(0);
+  };
+
+  const renderArrowIcon = () => {
+    if (fileList.length > 3) {
+      if (itemSlidePosition === 0) {
+        return (
+          <img
+            id="arrow-icon-right"
+            onClick={handleClickArrowRight}
+            src={arrowsIconRight}
+            alt=""
+          />
+        );
+      } else if (itemSlidePosition >= fileList.length - 3) {
+        return (
+          <img
+            id="arrow-icon-left"
+            onClick={handleClickArrowLeft}
+            src={arrowsIconLeft}
+            alt=""
+          />
+        );
+      } else {
+        return (
+          <>
+            <img
+              id="arrow-icon-left"
+              onClick={handleClickArrowLeft}
+              src={arrowsIconLeft}
+              alt=""
+            />
+            <img
+              id="arrow-icon-right"
+              onClick={handleClickArrowRight}
+              src={arrowsIconRight}
+              alt=""
+            />
+          </>
+        );
+      }
+    }
+  };
+
+  const renderList = fileList.map((item, index) => (
+    <div className="file" id="box-file" key={index}>
+      <FileItem
+        contentType={item.contentType}
+        name={item.name}
+        size={item.size}
+        fullPath={item.fullPath}
+        onClickDelete={handleClickDelete}
+      />
+    </div>
+  ));
+
+  // console.log("isLoading", isLoading);
+  // console.log("fileList.length;", fileList.length);
+
+  return (
+    <div id="list-container">
+      {!isLoading && (
+        <>
+          <div id="wrap-container">
+            <div
+              id="box-container"
+              style={{ right: itemSlidePosition * 258*3 + "px" }}
+            >
+              {renderList}
+            </div>
+          </div>
+          <div id="icon">{renderArrowIcon()}</div>
+        </>
+      )}
+      {isLoading && <>loading...</>}
+    </div>
+  );
 };
 
 export default ListFiles;

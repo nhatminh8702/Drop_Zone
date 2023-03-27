@@ -5,20 +5,19 @@ import classNames from "classnames";
 
 const DragDropFile = (props) => {
   const inputRef = React.useRef(null);
-  const { onChange, maxSize } = props;
+  const { onChange, maxSize, maxSizeErrorMessage } = props;
   const [error, setError] = useState(false);
 
   const handleDragOver = (e) => {
     e.preventDefault();
-    // e.stopPropagation();
-    console.log("drag over");
   };
+
   const handleDrop = (e) => {
     e.preventDefault();
-    // e.stopPropagation();
-    console.log("e.dataTransfer.files[0]", e.dataTransfer.files[0]);
-    // console.log(e.target.files);
+    onChange(e.dataTransfer.files);
+    setError(false);
   };
+  
   const handleChange = (e) => {
     if (e.target.files) {
       let upload = true;
@@ -30,19 +29,17 @@ const DragDropFile = (props) => {
         }
       }
       if (upload) {
-        for (let i = 0; i < e.target.files.length; i++) {
-          onChange(e.target.files);
-        }
+        onChange(e.target.files);
         setError(false);
       }
     }
   };
+  const checkSize = (files) => {};
 
   const handleClick = () => {
     inputRef.current.click();
   };
 
-  const { fileList, setFileList } = props;
   return (
     <div>
       <div
@@ -62,10 +59,10 @@ const DragDropFile = (props) => {
           <h3>Drag and drop files</h3>
           <p id="link" onClick={handleClick}>
             Browse file
-          </p>  
+          </p>
         </form>
       </div>
-      {error && <p className="errorMessage">The maximum file size is 10 MB</p>}
+      {error && <p className="errorMessage">{maxSizeErrorMessage}</p>}
     </div>
   );
 };
