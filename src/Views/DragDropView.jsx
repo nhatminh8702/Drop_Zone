@@ -21,7 +21,7 @@ const DragDropView = () => {
 
   return (
     <div id="drag-drop-view">
-      <DragDropFile onChange={onChange} maxSize={1048576} />
+      <DragDropFile onChange={onChange} maxSize={10485760} />
       <ListFiles fileList={fileList} onDelete={onDelete} />
     </div>
   );
